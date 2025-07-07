@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
   simple_deployment_pipeline:
@@ -34,4 +37,6 @@ jobs:
       #       start: npm start
       #       wait-on: http://localhost:3001
       - name: Trigger deployment
+        id: deployment
+        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
         run: curl ${{secrets.RENDER_HOOK}}
