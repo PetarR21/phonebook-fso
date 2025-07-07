@@ -40,3 +40,32 @@ jobs:
         id: deployment
         if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
         run: curl ${{secrets.RENDER_HOOK}}
+      - name: Discord webhook (successful deployment)
+        if: ${{ steps.deployment.outcome == 'success' }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: '🚀 Deployment by ${{ github.actor }} successful! New version deployed to production (${{secrets.DEPLOYMENT_URL}}).'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Discord webhook (failed build)
+        if: ${{ failure() }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: '❌ Deployment failed! Commit https://github.com/${{ github.repository }}/commit/${{ github.sha }} by ${{ github.actor }} broke the build.'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
