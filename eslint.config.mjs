@@ -8,12 +8,14 @@ export default [
     ignores: [
       'node_modules/**',
       'dist/**',
-      'frontend/src/services/persons.js',
-      'frontend/src/setupTests.js',
-      'frontend/vite.config.js',
-      'frontend/vitest.config.js',
+      'frontend/**',
+      'cypress/**',
+      'public/**',
+      'cypress.config.js',
     ],
-    files: ['**/*.js'],
+  },
+  {
+    files: ['**/*.js', '**/*.jsx'],
     languageOptions: {
       sourceType: 'commonjs',
       globals: { ...globals.node },
@@ -33,8 +35,5 @@ export default [
       'arrow-spacing': ['error', { before: true, after: true }],
       'no-console': 'off',
     },
-  },
-  {
-    ignores: ['dist/**'],
   },
 ]

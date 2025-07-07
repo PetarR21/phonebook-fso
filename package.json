@@ -12,11 +12,12 @@
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
     "install:frontend": "cd frontend && npm install",
     "install:all": "npm install && npm run install:frontend",
-    "lint": "eslint .",
+    "lint": "eslint . && cd frontend && npm run lint",
     "lint:fix": "eslint . --fix",
     "lint:frontend": "cd frontend && npm run lint",
     "test:frontend": "cd frontend && npm run test",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "test:e2e": "npx cypress run"
   },
   "author": "Petar Rakocevic",
   "license": "MIT",
