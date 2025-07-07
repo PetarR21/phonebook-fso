@@ -13,7 +13,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - uses: actions/dotenv-action@v1.1.4
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo PORT=${{secrets.PORT}} >> .env
+          echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
+          cat .env
       - name: Install dependecies
         run: npm install && npm run install:frontend
       - name: Check style
