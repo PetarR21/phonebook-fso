@@ -1,0 +1,38 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "dev:full": "concurrently \"npm run dev\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "rm -rf dist && cd frontend && npm run build && cp -r dist ../",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm install && npm run install:frontend",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:frontend": "cd frontend && npm run lint",
+    "test:frontend": "cd frontend && npm run test",
+    "cypress:open": "cypress open"
+  },
+  "author": "Petar Rakocevic",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "mongoose": "^8.13.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@stylistic/eslint-plugin-js": "^4.2.0",
+    "concurrently": "^8.2.2",
+    "cypress": "^14.5.1",
+    "eslint": "^9.24.0",
+    "globals": "^16.0.0"
+  }
+}
