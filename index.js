@@ -30,6 +30,10 @@ app.use(
   })
 )
 
+app.get('/health', (req, res) => {
+  res.send('ok')
+})
+
 app.get('/info', (request, response) => {
   Person.estimatedDocumentCount()
     .then((count) => {
