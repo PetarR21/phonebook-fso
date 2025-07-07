@@ -30,12 +30,12 @@ jobs:
         run: npm run build:ui
       - name: Run tests
         run: npm run test:frontend
-      #   - name: e2e tests
-      #     uses: cypress-io/github-action@v5
-      #     with:
-      #       command: npm run test:e2e
-      #       start: npm start
-      #       wait-on: http://localhost:3001
+      - name: e2e tests
+        uses: cypress-io/github-action@v5
+        with:
+          command: npm run test:e2e
+          start: npm start
+          wait-on: http://localhost:3001
       - name: Trigger deployment
         id: deployment
         if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
